@@ -1,0 +1,157 @@
+body{
+    background-color: #6C8AA5;
+    margin: 0;
+    font-family: 標楷體;
+    color: #2F3E4E;
+}
+.container{
+    background-color: #A4B8C4;
+    width: 95%;
+    margin: 0 auto;
+}
+.primary_header{
+    width: 100%;
+    background-color: #F2E9E4;
+    padding: 10px 0 10px 0;
+    clear: left;
+    border: bottom 2px 	#E5989B;
+}
+.title{
+    font-weight: bold;
+    text-align: center;
+}
+.secondary_header{
+    width: 100%;
+    clear: left;
+    padding: 50px 0 50px 0;
+    background-color: #A4B8C4;
+}
+.container .secondary_header ul{
+    margin: 0% auto;
+    padding: 0 0 15px 0;
+    width: 100%;
+}
+
+.secondary_header ul li{
+    float: left;
+    margin: 0 auto;
+    text-align: center;
+    width: 20%;
+    letter-spacing: 1px;
+    transition: all 0.3s linear;
+    list-style: none;
+    font-size: 24px;
+}
+.secondary_header ul li:hover{
+    color: #5A7690;
+    cursor: pointer;
+}
+.left_article{
+    background-color: #8da0b1;
+    width: 60%;
+    float: left;
+    padding-top: 35px;
+    padding-bottom: 47px ;
+}
+.left_article h2{
+    padding: 0 5%;
+    margin-top: 30px;
+    font-weight: bold;
+}
+.left_article p{
+    padding: 0 5%;
+    margin: 30px 0 15px;
+    text-align: justify;
+}
+.right_article{
+    width: 40%;
+    height: auto;
+    float: left;
+    padding: 0;
+}
+.placeholder{
+    margin: 0;
+    padding: 0;
+}
+/*設置欄段落水平對齊*/
+.row{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+/*設置欄段落*/
+.columns{
+    width: 25%;
+    float: left;
+}
+/*設置欄區內容文字*/
+.columns p{
+    text-align: justify;
+    padding: 0 14px;
+}
+/*設置欄區標題文字*/
+.columns h3{
+    text-align: center;
+}
+/*設置欄區圖片為圓形*/
+.bigheads{
+    width: 200px;
+    height: 200px;
+    border-radius: 200px;
+    margin-left: 40px;
+}
+/*設置欄區圖片對齊*/
+.bigheads_align{
+    text-align: center;
+}
+/*設置三欄位*/
+.column_triper{
+    width: 33.333%;
+    float: left;
+}
+.column_title{
+    padding: 25px;
+}
+/*設置左欄位*/
+.triper_left{
+    background-color: #7a7bc7;
+}
+/*設置中欄位*/
+.triper_center{
+    background-color: #7ac77e;
+}
+/*設置右欄位*/
+.triper_right{
+    background-color: #c77ac0;
+}
+.container .column_triper h2{
+    color: aliceblue;
+    text-align: center;
+}
+.social{
+    text-align: center;
+    width: 100%;
+    background: #828fae;
+    overflow: auto;
+}
+.social_icon{
+    float: left;
+    width: 25%;
+    text-align: center;
+    transition: all 0.3s linear;
+}
+.social_icon:hover{
+    cursor: pointer;
+    opacity: 0.5;
+}
+.copyright{
+    text-align: center;
+    background-color: #d2e0e0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: lighter;
+    padding: 25px 0;
+    font-size: x-small;
+    border-top-width: 2px;
+}
