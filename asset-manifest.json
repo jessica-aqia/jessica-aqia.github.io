@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/%3Cappname%3E/static/css/main.022167c2.css",
-    "main.js": "/%3Cappname%3E/static/js/main.b9caf021.js",
-    "index.html": "/%3Cappname%3E/index.html",
-    "main.022167c2.css.map": "/%3Cappname%3E/static/css/main.022167c2.css.map",
-    "main.b9caf021.js.map": "/%3Cappname%3E/static/js/main.b9caf021.js.map"
+    "main.css": "/jessica-aqia.github.io/static/css/main.0be4a956.css",
+    "main.js": "/jessica-aqia.github.io/static/js/main.6dcdc628.js",
+    "index.html": "/jessica-aqia.github.io/index.html",
+    "main.0be4a956.css.map": "/jessica-aqia.github.io/static/css/main.0be4a956.css.map",
+    "main.6dcdc628.js.map": "/jessica-aqia.github.io/static/js/main.6dcdc628.js.map"
   },
   "entrypoints": [
-    "static/css/main.022167c2.css",
-    "static/js/main.b9caf021.js"
+    "static/css/main.0be4a956.css",
+    "static/js/main.6dcdc628.js"
   ]
 }
