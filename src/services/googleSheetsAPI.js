@@ -1,4 +1,5 @@
 // Google Sheets API 服務
+// 注意：在正式專案中，建議將 API 金鑰移到環境變數以提高安全性
 const API_KEY = "AIzaSyA3nIXUavR2SCSdQIsj4tXgTbh7SEiusDs";
 const SPREADSHEET_ID = "1HQEfsZA0utuOww8mKioWKFVJnnAeGLfZNnhvdhJJpZE";
 const RANGE = "A:G";
@@ -13,7 +14,14 @@ export const fetchProjectsFromGoogleSheets = async () => {
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      let errorMessage = `Google Sheets API 錯誤 (${response.status})`;
+      try {
+        const errorText = await response.text();
+        errorMessage += `: ${errorText}`;
+      } catch {
+        // 如果無法讀取錯誤訊息，使用預設訊息
+      }
+      throw new Error(errorMessage);
     }
 
     const data = await response.json();
@@ -27,16 +35,25 @@ export const fetchProjectsFromGoogleSheets = async () => {
 
     // 將資料轉換為專案物件陣列
     const projects = rows
-      .filter((row) => row[0] && row[1]) // 確保有 id 和 title
-      .map((row) => ({
-        id: row[0] || "",
-        title: row[1] || "",
-        description: row[2] || "",
-        url: row[3] || "",
-        image: row[4] || "",
-        created_date: row[5] || "",
-        details: row[6] || "",
-      }));
+      .filter((row) => row.length >= 2 && row[0] && row[1]) // 確保有足夠欄位和基本資料
+      .map((row) => {
+        const dateStr = (row[5] || "").trim();
+        const year = dateStr
+          ? extractYearFromDate(dateStr)
+          : new Date().getFullYear();
+
+        return {
+          id: String(row[0] || "").trim(),
+          title: String(row[1] || "").trim(),
+          description: String(row[2] || "").trim(),
+          url: parseHtmlLinks(row[3] || ""), // 直接解析為連結陣列
+          image: String(row[4] || "").trim(),
+          created_date: dateStr,
+          date: formatDate(dateStr), // 顯示用的格式化日期
+          year: year, // 年份用於分組
+          details: String(row[6] || "").trim(),
+        };
+      });
 
     return projects;
   } catch (error) {
@@ -46,22 +63,55 @@ export const fetchProjectsFromGoogleSheets = async () => {
 };
 
 /**
+ * 從日期字串中提取年份
+ * @param {string} dateString - 日期字串
+ * @returns {number} 年份
+ */
+const extractYearFromDate = (dateString) => {
+  if (!dateString) return new Date().getFullYear();
+
+  // 處理各種日期格式
+  if (dateString.includes("/")) {
+    const parts = dateString.split("/");
+    // 假設格式為 MM/DD/YYYY 或 DD/MM/YYYY
+    const year = parts[2] || parts[0];
+    const yearNum = parseInt(year, 10);
+    return yearNum && yearNum > 1900 ? yearNum : new Date().getFullYear();
+  } else if (dateString.includes("-")) {
+    const date = new Date(dateString);
+    return isNaN(date.getTime())
+      ? new Date().getFullYear()
+      : date.getFullYear();
+  } else {
+    // 嘗試直接解析為年份
+    const yearNum = parseInt(dateString, 10);
+    return yearNum && yearNum > 1900 ? yearNum : new Date().getFullYear();
+  }
+};
+
+/**
  * 解析 HTML 連結標籤為連結物件陣列
  * @param {string} htmlString - 包含 HTML 連結的字串
  * @returns {Array} 連結物件陣列
  */
 export const parseHtmlLinks = (htmlString) => {
-  if (!htmlString) return [];
+  if (!htmlString || typeof htmlString !== "string") return [];
 
-  const linkRegex = /<a href="([^"]*)"[^>]*>([^<]*)<\/a>/g;
+  // 更嚴謹的正規表達式，處理更多邊界情況
+  const linkRegex = /<a\s+[^>]*href\s*=\s*["']([^"']*?)["'][^>]*?>(.*?)<\/a>/gi;
   const links = [];
   let match;
 
   while ((match = linkRegex.exec(htmlString)) !== null) {
-    links.push({
-      url: match[1],
-      text: match[2],
-    });
+    const url = match[1].trim();
+    const text = match[2].replace(/<[^>]*>/g, "").trim(); // 移除內部 HTML 標籤
+
+    if (url && text) {
+      links.push({
+        url: url,
+        text: text,
+      });
+    }
   }
 
   return links;
@@ -75,38 +125,23 @@ export const parseHtmlLinks = (htmlString) => {
 export const formatDate = (dateString) => {
   if (!dateString) return "";
 
-  if (dateString.includes("/")) {
+  try {
+    if (dateString.includes("/")) {
+      return dateString; // 已經是 MM/DD/YYYY 格式
+    } else if (dateString.includes("-")) {
+      const date = new Date(dateString);
+      return isNaN(date.getTime())
+        ? dateString
+        : date.toLocaleDateString("zh-TW");
+    }
     return dateString;
-  } else if (dateString.includes("-")) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("zh-TW");
+  } catch {
+    return dateString;
   }
-
-  return dateString;
 };
 
 /**
- * React Hook 風格的 Google Sheets API
- * @returns {Object} API 方法物件
- */
-export const useGoogleSheetsProjects = () => {
-  return {
-    async loadProjects() {
-      try {
-        const projects = await fetchProjectsFromGoogleSheets();
-        return { data: projects, error: null };
-      } catch (error) {
-        return { data: [], error: error.message };
-      }
-    },
-    parseLinks: parseHtmlLinks,
-    formatDate: formatDate,
-  };
-};
-
-/**
- * 美化 Sheets 提供的 <a> 連結：自動加上 Tailwind 樣式
- * 僅處理樣式，不更動 href 或 target/rel
+ * 美化 HTML 連結：自動加上 Tailwind 樣式
  * @param {string} html - 來源 HTML 字串
  * @returns {string} 已加上樣式的 HTML 字串
  */
@@ -116,19 +151,59 @@ export const beautifyAnchorsHtml = (html) => {
   const buttonClasses =
     "inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300 text-sm font-medium";
 
-  // 將 <a ...> 注入/附加 class
-  const withClasses = html.replace(/<a\b([^>]*)>/gi, (match, attrs) => {
+  return html.replace(/<a\b([^>]*)>/gi, (match, attrs) => {
     const hasClass = /\bclass\s*=\s*"[^"]*"/i.test(attrs);
     if (hasClass) {
-      // 在現有 class 後面附加我們的樣式
       return match.replace(
         /class\s*=\s*"([^"]*)"/i,
         (_m, existing) => `class="${existing} ${buttonClasses}"`
       );
     }
-    // 沒有 class，插入 class 屬性
     return `<a class="${buttonClasses}"${attrs}>`;
   });
+};
 
-  return withClasses;
+/**
+ * React Hook：Google Sheets 專案資料管理
+ * @returns {Object} Hook 回傳物件
+ */
+import { useState, useCallback } from "react";
+
+export const useGoogleSheetsProjects = () => {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const loadProjects = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const data = await fetchProjectsFromGoogleSheets();
+      setProjects(data);
+      return { success: true, data };
+    } catch (err) {
+      const errorMessage = err.message || "載入專案資料時發生錯誤";
+      setError(errorMessage);
+      return { success: false, error: errorMessage };
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const clearError = useCallback(() => {
+    setError(null);
+  }, []);
+
+  return {
+    projects,
+    loading,
+    error,
+    loadProjects,
+    clearError,
+    // 工具函式
+    parseLinks: parseHtmlLinks,
+    formatDate: formatDate,
+    beautifyAnchorsHtml,
+  };
 };
