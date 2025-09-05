@@ -252,6 +252,12 @@ const ProjectsPage = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
 
+  // 處理關閉彈窗
+  const handleCloseDetails = useCallback(() => {
+    setShowDetails(false);
+    setSelectedProject(null);
+  }, []);
+
   // 載入專案資料
   useEffect(() => {
     loadProjects();
@@ -290,12 +296,6 @@ const ProjectsPage = () => {
   const handleTimelineClick = useCallback((project) => {
     setSelectedProject(project);
     setShowDetails(true);
-  }, []);
-
-  // 處理關閉彈窗
-  const handleCloseDetails = useCallback(() => {
-    setShowDetails(false);
-    setSelectedProject(null);
   }, []);
 
   // 處理重新載入
