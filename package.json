@@ -2,7 +2,7 @@
   "name": "intro",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://jessica-aqia.github.io",
+  "homepage": "https://jessica-aqia/jessica-aqia.github.io",
   "dependencies": {
     "@testing-library/dom": "^9.3.1",
     "@testing-library/jest-dom": "^5.17.0",
