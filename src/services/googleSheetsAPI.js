@@ -1,3 +1,6 @@
+// 所有 import 都要放在檔案最上方
+import { useState, useCallback } from "react";
+
 // Google Sheets API 服務
 // 注意：在正式專案中，建議將 API 金鑰移到環境變數以提高安全性
 const API_KEY = "AIzaSyA3nIXUavR2SCSdQIsj4tXgTbh7SEiusDs";
@@ -167,8 +170,6 @@ export const beautifyAnchorsHtml = (html) => {
  * React Hook：Google Sheets 專案資料管理
  * @returns {Object} Hook 回傳物件
  */
-import { useState, useCallback } from "react";
-
 export const useGoogleSheetsProjects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
