@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { getProjects } from "../services/googleSheetsAPI";
+import { fetchProjectsFromGoogleSheets } from "../services/googleSheetsAPI";
 
 const ProjectsPage = () => {
   const [projects, setProjects] = useState([]);
@@ -34,7 +34,7 @@ const ProjectsPage = () => {
       try {
         setLoading(true);
         setError(null);
-        const data = await getProjects();
+        const data = await fetchProjectsFromGoogleSheets();
         console.log("從資料庫取得的專案:", data);
         setProjects(data);
       } catch (error) {
