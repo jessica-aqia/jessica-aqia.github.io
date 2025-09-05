@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { getProjects } from "../api/projectsApi";
+import { getProjects } from "../services/googleSheetsAPI";
 
 const ProjectsPage = () => {
   const [projects, setProjects] = useState([]);
