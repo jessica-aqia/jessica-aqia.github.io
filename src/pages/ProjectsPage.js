@@ -269,7 +269,7 @@ const ProjectsPage = () => {
       document.addEventListener("keydown", handleKeyDown);
       return () => document.removeEventListener("keydown", handleKeyDown);
     }
-  }, [showDetails]);
+  }, [showDetails, handleCloseDetails]);
 
   // 按年份分組專案
   const projectsByYear = useMemo(() => {
