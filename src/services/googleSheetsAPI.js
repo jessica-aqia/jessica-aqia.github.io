@@ -58,6 +58,20 @@ export const fetchProjectsFromGoogleSheets = async () => {
         };
       });
 
+    projects.sort((a, b) => {
+      // 如果沒有日期，放到最後
+      if (!a.created_date && !b.created_date) return 0;
+      if (!a.created_date) return 1;
+      if (!b.created_date) return -1;
+
+      // 將日期字串轉換為可比較的日期物件
+      const dateA = new Date(a.created_date);
+      const dateB = new Date(b.created_date);
+
+      // 最新的日期排在前面（降冪排列）
+      return dateB - dateA;
+    });
+
     return projects;
   } catch (error) {
     console.error("Error fetching projects data:", error);
