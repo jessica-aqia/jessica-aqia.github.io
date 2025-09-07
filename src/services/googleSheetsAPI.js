@@ -3,8 +3,8 @@ import { useState, useCallback } from "react";
 
 // Google Sheets API 服務
 // 注意：在正式專案中，建議將 API 金鑰移到環境變數以提高安全性
-const API_KEY = "AIzaSyA3nIXUavR2SCSdQIsj4tXgTbh7SEiusDs";
-const SPREADSHEET_ID = "1HQEfsZA0utuOww8mKioWKFVJnnAeGLfZNnhvdhJJpZE";
+const API_KEY = "AIzaSyDg_fin-YLqFKRSTkWVJ-XVdPzM2TnIeo8";
+const SPREADSHEET_ID = "1s3Blb8jtV0P0u1ayneTUTi96QfF0stAjdCduMmCzX60";
 const RANGE = "A:G";
 
 /**

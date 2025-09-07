@@ -81,12 +81,12 @@ const Header = () => {
 
         {/* 移動端選單 */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4">
+          <div className="md:hidden mt-4 pb-4 bg-white/90 rounded-lg z-50 relative">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
-                className={`block py-2 text-blue-700 hover:text-blue-500 transition-colors duration-300 ${
+                className={`block py-2 text-center text-blue-700 hover:text-blue-500 transition-colors duration-300 ${
                   isActive(item.path) ? "!text-blue-500 font-semibold" : ""
                 }`}
                 onClick={() => setMobileMenuOpen(false)}

@@ -105,9 +105,9 @@ const AboutPage = () => {
             </h1>
           </div>
 
-          <div className="space-y-8">
+          <article className="space-y-8">
             {/* 個人簡介 */}
-            <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-blue-100/50 hover:shadow-2xl transition-all duration-300 group">
+            <section className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-blue-100/50 hover:shadow-2xl transition-all duration-300 group">
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3 mb-6">
@@ -170,10 +170,10 @@ const AboutPage = () => {
                   ))}
                 </div>
               </div>
-            </div>
+            </section>
 
             {/* 學習歷程 */}
-            <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-blue-100/50 hover:shadow-2xl transition-all duration-300">
+            <section className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-blue-100/50 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-3 mb-8">
                 <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-slate-500 rounded-lg flex items-center justify-center">
                   <Icon path="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" />
@@ -213,10 +213,10 @@ const AboutPage = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </section>
 
             {/* 未來規劃 */}
-            <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-blue-100/50 hover:shadow-2xl transition-all duration-300">
+            <section className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-blue-100/50 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-3 mb-8">
                 <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-slate-500 rounded-lg flex items-center justify-center">
                   <Icon path="M10 2L3 7v11a1 1 0 001 1h12a1 1 0 001-1V7l-7-5zM8 15v-3a1 1 0 011-1h2a1 1 0 011 1v3H8z" />
@@ -251,8 +251,8 @@ const AboutPage = () => {
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
+            </section>
+          </article>
         </div>
       </div>
     </div>
